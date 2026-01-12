@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stoppuhr</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <meta name="theme-color" content="#0b0e13">
+  <link rel="stylesheet" href="stopwatch.css">
+</head>
+<body>
+  <header class="page-header">
+    <a class="back" href="../../index.html">Zurueck</a>
+    <h1>Stoppuhr</h1>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div id="display" class="display">00:00.00</div>
+      <div class="controls">
+        <button id="start">Start</button>
+        <button id="stop" class="secondary">Stop</button>
+        <button id="lap" class="secondary">Runde</button>
+        <button id="reset" class="danger">Reset</button>
+      </div>
+      <ul id="laps" class="laps"></ul>
+    </section>
+  </main>
+
+  <script src="stopwatch.js"></script>
+</body>
+</html>

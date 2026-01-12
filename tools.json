@@ -1,0 +1,20 @@
+[
+  {
+    "id": "timer",
+    "name": "Timer",
+    "description": "Countdown mit Pause, Reset und Signal am Ende.",
+    "url": "tools/timer/index.html"
+  },
+  {
+    "id": "stoppuhr",
+    "name": "Stoppuhr",
+    "description": "Start, Stop, Reset und Rundenzeiten.",
+    "url": "tools/stoppuhr/index.html"
+  },
+  {
+    "id": "vierbilder",
+    "name": "Vier Bilder ein Wort",
+    "description": "Kleine Demo mit 5 Raetseln und Feedback.",
+    "url": "tools/vierbilder/index.html"
+  }
+]

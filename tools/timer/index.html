@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Timer</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <meta name="theme-color" content="#0b0e13">
+  <link rel="stylesheet" href="timer.css">
+</head>
+<body>
+  <header class="page-header">
+    <a class="back" href="../../index.html">Zurueck</a>
+    <h1>Timer</h1>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="inputs">
+        <label>
+          Minuten
+          <input id="minutes" type="number" inputmode="numeric" min="0" max="999" placeholder="0">
+        </label>
+        <label>
+          Sekunden
+          <input id="seconds" type="number" inputmode="numeric" min="0" max="59" placeholder="0">
+        </label>
+      </div>
+
+      <div id="time-display" class="display">00:00</div>
+
+      <div class="controls">
+        <button id="start">Start</button>
+        <button id="pause" class="secondary">Pause</button>
+        <button id="reset" class="danger">Reset</button>
+      </div>
+
+      <p id="status" class="status" role="status"></p>
+    </section>
+  </main>
+
+  <script src="timer.js"></script>
+</body>
+</html>

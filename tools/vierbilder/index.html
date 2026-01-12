@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vier Bilder ein Wort</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <meta name="theme-color" content="#0b0e13">
+  <link rel="stylesheet" href="game.css">
+</head>
+<body>
+  <header class="page-header">
+    <a class="back" href="../../index.html">Zurueck</a>
+    <h1>Vier Bilder ein Wort</h1>
+  </header>
+
+  <main>
+    <section class="panel">
+      <p id="progress" class="progress">Raetsel 1/5</p>
+
+      <div class="grid">
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+      </div>
+
+      <label class="answer">
+        <span>Dein Wort</span>
+        <input id="answer" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false">
+      </label>
+
+      <div class="controls">
+        <button id="check">Pruefen</button>
+        <button id="next" class="secondary">Naechstes</button>
+      </div>
+
+      <p id="status" class="status" role="status"></p>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PWA Toolbox</title>
+  <meta name="theme-color" content="#0b0e13">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/icon-192.svg">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.svg">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0e13;
+      --bg-2: #101724;
+      --panel: #151d2a;
+      --text: #f2f5ff;
+      --muted: #9aa6bc;
+      --accent: #4fe3a2;
+      --accent-2: #41c7ff;
+      --border: #233047;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Gill Sans", "Trebuchet MS", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #1c2740 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg), #0e1420 70%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .app-header {
+      padding: 24px 20px 8px;
+    }
+
+    .brand {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #091016;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    main {
+      padding: 10px 20px 40px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .search {
+      display: grid;
+      gap: 6px;
+      margin: 12px 0 18px;
+    }
+
+    .search span {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .search input {
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0f1420;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .search input:focus-visible {
+      outline: 2px solid var(--accent-2);
+      outline-offset: 2px;
+    }
+
+    .tool-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.32);
+    }
+
+    .card-main {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card-main h3 {
+      margin: 0 0 6px;
+      font-size: 1.15rem;
+    }
+
+    .card-main p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .card-main:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 12px;
+    }
+
+    .fav {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0f1420;
+      color: var(--accent);
+      font-size: 1.3rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .fav[data-active="true"] {
+      background: rgba(79, 227, 162, 0.12);
+      border-color: rgba(79, 227, 162, 0.5);
+    }
+
+    .fav:focus-visible {
+      outline: 2px solid var(--accent-2);
+      outline-offset: 2px;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 16px 0;
+    }
+
+    .notice {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (min-width: 720px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .tool-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">TB</div>
+      <div>
+        <h1>Toolbox</h1>
+        <p class="subtitle">Offline PWA fuer iPhone</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <label class="search">
+      <span>Suche</span>
+      <input id="search" type="search" placeholder="Tool suchen" autocomplete="off" spellcheck="false">
+    </label>
+
+    <div id="tool-list" class="tool-list" role="list"></div>
+    <p id="empty" class="empty" hidden>Keine Tools gefunden.</p>
+    <p id="status" class="notice" role="status"></p>
+
+    <noscript>
+      <p class="notice">Bitte JavaScript aktivieren, um die Toolbox zu nutzen.</p>
+    </noscript>
+  </main>
+
+  <script>
+    const toolList = document.getElementById('tool-list');
+    const searchInput = document.getElementById('search');
+    const emptyState = document.getElementById('empty');
+    const statusEl = document.getElementById('status');
+
+    const FAVORITES_KEY = 'pwa-toolbox-favorites';
+
+    let tools = [];
+    let favorites = new Set();
+
+    function loadFavorites() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+        if (Array.isArray(stored)) {
+          favorites = new Set(stored);
+        }
+      } catch (err) {
+        favorites = new Set();
+      }
+    }
+
+    function saveFavorites() {
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify(Array.from(favorites)));
+    }
+
+    function toggleFavorite(id) {
+      if (favorites.has(id)) {
+        favorites.delete(id);
+      } else {
+        favorites.add(id);
+      }
+      saveFavorites();
+      renderTools();
+    }
+
+    function createCard(tool) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('role', 'listitem');
+
+      const main = document.createElement('a');
+      main.className = 'card-main';
+      main.href = tool.url;
+      main.innerHTML = `<h3>${tool.name}</h3><p>${tool.description}</p>`;
+
+      const fav = document.createElement('button');
+      fav.className = 'fav';
+      const isFav = favorites.has(tool.id);
+      fav.dataset.active = isFav ? 'true' : 'false';
+      fav.textContent = isFav ? '?' : '?';
+      fav.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+      fav.setAttribute('aria-label', isFav ? 'Favorit entfernen' : 'Als Favorit markieren');
+      fav.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleFavorite(tool.id);
+      });
+
+      card.append(main, fav);
+      return card;
+    }
+
+    function renderTools() {
+      const query = searchInput.value.trim().toLowerCase();
+      const filtered = tools.filter((tool) => {
+        const haystack = `${tool.name} ${tool.description}`.toLowerCase();
+        return haystack.includes(query);
+      });
+
+      filtered.sort((a, b) => {
+        const favDelta = Number(favorites.has(b.id)) - Number(favorites.has(a.id));
+        if (favDelta !== 0) return favDelta;
+        return a.name.localeCompare(b.name);
+      });
+
+      toolList.innerHTML = '';
+      if (filtered.length === 0) {
+        emptyState.hidden = false;
+        return;
+      }
+      emptyState.hidden = true;
+
+      filtered.forEach((tool) => {
+        toolList.appendChild(createCard(tool));
+      });
+    }
+
+    async function loadTools() {
+      try {
+        const response = await fetch('tools.json');
+        if (!response.ok) {
+          throw new Error('tools.json konnte nicht geladen werden.');
+        }
+        const data = await response.json();
+        tools = Array.isArray(data) ? data : [];
+        statusEl.textContent = '';
+      } catch (err) {
+        statusEl.textContent = 'Tools konnten nicht geladen werden. Offline?';
+        tools = [];
+      }
+      renderTools();
+    }
+
+    searchInput.addEventListener('input', renderTools);
+
+    loadFavorites();
+    loadTools();
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js');
+      });
+    }
+  </script>
+</body>
+</html>
