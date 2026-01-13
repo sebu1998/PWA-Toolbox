@@ -1,20 +1,20 @@
 {
-  "name": "PWA Toolbox",
-  "short_name": "Toolbox",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#0b0e13",
-  "theme_color": "#0b0e13",
-  "icons": [
-    {
-      "src": "assets/icons/icon-192.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "assets/icons/icon-512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml"
-    }
-  ]
+"name": "PWA Toolbox",
+"short_name": "Toolbox",
+"start_url": "/PWA-Toolbox/",
+"display": "standalone",
+"background_color": "#0b0e13",
+"theme_color": "#0b0e13",
+"icons": [
+{
+"src": "assets/icons/icon-192.svg",
+"sizes": "192x192",
+"type": "image/svg+xml"
+},
+{
+"src": "assets/icons/icon-512.svg",
+"sizes": "512x512",
+"type": "image/svg+xml"
+}
+]
 }
